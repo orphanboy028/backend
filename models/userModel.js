@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
+const crypto = require("crypto");
 
 const userSchema = new mongoose.Schema(
   {
@@ -43,6 +44,7 @@ const userSchema = new mongoose.Schema(
     otp: String,
     otpTimestamp: Date,
     isActive: Boolean,
+    otpgenerateToken: String,
   },
   { timestamps: true }
 );
@@ -53,6 +55,16 @@ userSchema.pre("save", async function (next) {
   this.passwordConfirm = undefined;
   next();
 });
+
+userSchema.methods.createOTPToken = function () {
+  const UrlToken = crypto.randomBytes(32).toString("hex");
+  this.otpgenerateToken = crypto
+    .createHash("sha256")
+    .update(UrlToken)
+    .digest("hex");
+
+  return UrlToken;
+};
 
 const User = mongoose.model("User", userSchema);
 
