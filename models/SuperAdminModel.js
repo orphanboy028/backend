@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const crypto = require("crypto");
 
-const userSchema = new mongoose.Schema(
+const superAdminSchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -21,8 +21,7 @@ const userSchema = new mongoose.Schema(
 
     role: {
       type: String,
-      enum: ["user", "admin"],
-      default: "user",
+      default: "Super-admin",
     },
     password: {
       type: String,
@@ -40,40 +39,18 @@ const userSchema = new mongoose.Schema(
         message: "confirm password didn't match",
       },
     },
-
-    otp: String,
-    otpTimestamp: Date,
     isActive: Boolean,
-    otpgenerateToken: String,
   },
   { timestamps: true }
 );
 
-userSchema.pre("save", async function (next) {
+superAdminSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
   this.password = await bcrypt.hash(this.password, 12);
   this.passwordConfirm = undefined;
   next();
 });
 
-userSchema.methods.createOTPToken = function () {
-  const UrlToken = crypto.randomBytes(32).toString("hex");
-  this.otpgenerateToken = crypto
-    .createHash("sha256")
-    .update(UrlToken)
-    .digest("hex");
+const SuperAdmin = mongoose.model("SuperAdmin", superAdminSchema);
 
-  return UrlToken;
-};
-
-// check password is correct
-userSchema.methods.correctPassword = async function (
-  candidatePassword,
-  userPassword
-) {
-  return await bcrypt.compare(candidatePassword, userPassword);
-};
-
-const User = mongoose.model("User", userSchema);
-
-module.exports = User;
+module.exports = SuperAdmin;
