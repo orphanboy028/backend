@@ -1,3 +1,5 @@
+const jwt = require("jsonwebtoken");
+const { promisify } = require("util");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
 const SuperAdmin = require("../models/SuperAdminModel");
@@ -61,4 +63,50 @@ exports.superAdminregister = catchAsync(async (req, res, next) => {
     status: "Success",
     newUser,
   });
+});
+
+// create tooken
+const createSendToken = (user, statusCode, res) => {
+  const token = signToken(user._id);
+
+  const cookieOptions = {
+    expires: new Date(
+      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+    ),
+    httpOnly: true,
+  };
+  if (process.env.NODE_ENV === "production") cookieOptions.secure = true;
+
+  res.cookie("jwt", token, cookieOptions);
+  user.password = undefined;
+  res.status(statusCode).json({
+    status: "Success",
+    token,
+    user,
+  });
+};
+
+// jwt tooken function
+const signToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRES_IN,
+  });
+};
+
+exports.SuperAdminlogin = catchAsync(async (req, res, next) => {
+  const { email, password } = req.body;
+
+  // 1) check if email and password exist
+  if (!email && !password) {
+    return next(new AppError("Please Provide Email and Password"));
+  }
+  // 2) check if user exist && password is correct
+  const user = await SuperAdmin.findOne({ email }).select("+password");
+  // 3) if everythng ok, send token to client
+
+  if (!user || !(await user.correctPassword(password, user.password))) {
+    return next(new AppError("Incorect email or password", 401));
+  }
+
+  createSendToken(user, 200, res);
 });
