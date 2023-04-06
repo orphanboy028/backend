@@ -1,8 +1,26 @@
 const catchAsync = require("../../utils/catchAsync");
+const path = require("path");
 const AppError = require("../../utils/appError");
 const sendEmail = require("../../utils/email");
 const User = require("../../models/userModel");
 const Business = require("../../models/BusinessModel");
+const multer = require("multer");
+
+const multerstorage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.resolve(`${__dirname}/../../../client/public/Company-logo`));
+  },
+  filename: function (req, file, cb) {
+    const ext = file.mimetype.split("/")[1];
+    cb(null, `user-${req.user._id}-${Date.now()}.${ext}`);
+  },
+});
+
+const upload = multer({
+  storage: multerstorage,
+});
+
+exports.uploadCompanyLogo = upload.single("photo");
 
 exports.createBusiness = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user._id);
@@ -68,5 +86,26 @@ exports.updateBusinessProfile = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: "Success",
     business,
+  });
+});
+
+exports.updateLogo = catchAsync(async (req, res, next) => {
+  const id = req.user._id;
+  const photoname = req.file.filename;
+
+  const myLogo = await Business.findOneAndUpdate(
+    { BusiessOwner: id },
+    {
+      photo: photoname,
+    },
+    {
+      new: true,
+    }
+  );
+
+  res.status(200).json({
+    status: "Success",
+    message: "image update sussesfully",
+    myLogo,
   });
 });

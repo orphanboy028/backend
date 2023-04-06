@@ -18,4 +18,9 @@ router.patch(
   BusinessController.updateBusinessProfile
 );
 
+// Update Company Logo
+router
+  .route("/update-logo")
+  .patch(BusinessController.uploadCompanyLogo, BusinessController.updateLogo);
+
 module.exports = router;

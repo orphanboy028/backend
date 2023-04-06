@@ -16,9 +16,15 @@ const BusinessSchema = new mongoose.Schema(
     website: {
       type: String,
     },
+    photo: {
+      type: String,
+    },
     BusiessOwner: {
       type: String,
       require: [true, "Please Provide Business Owner id!"],
+    },
+    address: {
+      type: String,
     },
   },
   { timestamps: true }
