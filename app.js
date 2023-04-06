@@ -4,6 +4,7 @@ const cors = require("cors");
 const globalErrorHandler = require("./utils/errorController");
 const authRoute = require("./routes/authRoute");
 const superAdminAuthRoute = require("./routes/SuperAdminAuth");
+const BusinessRoute = require("./routes/BusinessRoute");
 
 // BODY PARSER READING data FROM into req.body
 app.use(cors({ origin: `${process.env.CLINENT_URL}` }));
@@ -18,6 +19,7 @@ app.get("/", (req, res, next) => {
 
 app.use("/api/V1/industry/auth", authRoute);
 app.use("/api/V1/industy/super-admin", superAdminAuthRoute);
+app.use("/api/V1/industy/business", BusinessRoute);
 
 // global Error Control
 app.use(globalErrorHandler);

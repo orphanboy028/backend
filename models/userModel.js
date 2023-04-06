@@ -41,6 +41,8 @@ const userSchema = new mongoose.Schema(
       },
     },
 
+    businessDetails: { type: mongoose.Schema.Types.ObjectId, ref: "Business" },
+
     otp: String,
     otpTimestamp: Date,
     isActive: Boolean,
@@ -73,6 +75,14 @@ userSchema.methods.correctPassword = async function (
 ) {
   return await bcrypt.compare(candidatePassword, userPassword);
 };
+
+// populate business
+userSchema.pre(/^find/, function (next) {
+  this.find().populate({
+    path: "businessDetails",
+  });
+  next();
+});
 
 const User = mongoose.model("User", userSchema);
 
