@@ -7,6 +7,7 @@ const superAdminAuthRoute = require("./routes/SuperAdminAuth");
 const BusinessRoute = require("./routes/BusinessRoute");
 const categoriesRoute = require("./routes/CategoriesRoutes");
 const productRoute = require("./routes/ProductRoute");
+const formRoute = require("./routes/formRoute");
 
 // BODY PARSER READING data FROM into req.body
 app.use(cors({ origin: `${process.env.CLINENT_URL}` }));
@@ -24,6 +25,7 @@ app.use("/api/V1/industy/super-admin", superAdminAuthRoute);
 app.use("/api/V1/industy/business", BusinessRoute);
 app.use("/api/V1/industy/categories", categoriesRoute);
 app.use("/api/V1/industy/product", productRoute);
+app.use("/api/V1/industy/form", formRoute);
 
 // global Error Control
 app.use(globalErrorHandler);
