@@ -6,6 +6,8 @@ const productController = require("../controllers/users/ProductController");
 // GET ALL PRODUCTS
 router.get("/", productController.getAllProducts);
 
+router.get("/single-product/:slug", productController.getSingleProduct);
+
 // Midelwear for all business Routes
 router.use(authController.protect, authController.restricTO("user"));
 

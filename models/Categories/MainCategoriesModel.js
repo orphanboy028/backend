@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-var slugify = require("slugify");
+const slugify = require("slugify");
 
 const categorySchema = mongoose.Schema({
   categoryName: {

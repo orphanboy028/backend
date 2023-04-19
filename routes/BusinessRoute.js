@@ -3,6 +3,9 @@ const router = express.Router();
 const authController = require("../controllers/authController");
 const BusinessController = require("../controllers/users/BusinessController");
 
+// Get Business Details
+router.get("/business-details/:slug", BusinessController.businessDetails);
+
 // Midelwear for all business Routes
 router.use(authController.protect, authController.restricTO("user"));
 

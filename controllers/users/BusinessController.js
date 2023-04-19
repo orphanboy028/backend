@@ -41,7 +41,6 @@ exports.createBusiness = catchAsync(async (req, res, next) => {
   });
 
   // Find a user by ID and add the new business to their profile
-
   user.businessDetails = newBusiness._id;
   await user.save();
 
@@ -106,5 +105,21 @@ exports.updateLogo = catchAsync(async (req, res, next) => {
     status: "Success",
     message: "image update sussesfully",
     myLogo,
+  });
+});
+
+// Business Details
+
+exports.businessDetails = catchAsync(async (req, res, next) => {
+  const { slug } = req.params;
+  const business = await Business.findOne({ slug })
+    .populate({
+      path: "products",
+      select: "-user",
+    })
+    .populate("BusiessOwner");
+  res.status(200).json({
+    status: "Success",
+    business,
   });
 });
