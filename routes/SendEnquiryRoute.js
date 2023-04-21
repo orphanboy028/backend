@@ -5,14 +5,18 @@ const EnquiryController = require("../controllers/users/EnquiryController");
 const superAdminController = require("../controllers/superAdminController");
 const authController = require("../controllers/authController");
 
-router.post(
-  "/create-enquiry",
+router.get(
+  "/List-All-Enquiry-Request",
+  superAdminController.protectSuperAdmin,
+  authController.restricTO("Super-admin"),
+  EnquiryController.ListAllEnquiryRequest
+);
+router.use(authController.protect, authController.restricTO("user"));
+router.post("/send-enquiry/:slug", EnquiryController.sendEnquiryApi);
+router.get(
+  "/get-request-details/:slug",
   authController.protect,
   authController.restricTO("user"),
-  EnquiryController.CreateEnquiry
+  EnquiryController.getrequestDetails
 );
-
-router.use(authController.protect, authController.restricTO("user"));
-router.get("/get-all-enquiry", EnquiryController.getAllEnquiry);
-
 module.exports = router;

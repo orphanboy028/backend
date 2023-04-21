@@ -10,6 +10,7 @@ const productRoute = require("./routes/ProductRoute");
 const formRoute = require("./routes/formRoute");
 const EnquiryRouter = require("./routes/EnquiryRouter");
 const UserRouter = require("./routes/UserRoutes");
+const SendEnquiryRoute = require("./routes/SendEnquiryRoute");
 
 // BODY PARSER READING data FROM into req.body
 app.use(cors({ origin: `${process.env.CLINENT_URL}` }));
@@ -30,6 +31,7 @@ app.use("/api/V1/industy/product", productRoute);
 app.use("/api/V1/industy/form", formRoute);
 app.use("/api/V1/industy/enquiry", EnquiryRouter);
 app.use("/api/V1/industy/users", UserRouter);
+app.use("/api/V1/industy/sendenquiry", SendEnquiryRoute);
 
 // global Error Control
 app.use(globalErrorHandler);
