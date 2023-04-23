@@ -12,6 +12,8 @@ router.use(authController.protect, authController.restricTO("user"));
 // Create Business API
 router.post("/create-business", BusinessController.createBusiness);
 
+router.get("/business-lists", BusinessController.getAllBusinessList);
+
 // GET BUSINESS DETAILS API
 router.get("/get-business-details", BusinessController.getUserBusinessDetails);
 

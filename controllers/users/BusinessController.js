@@ -109,7 +109,6 @@ exports.updateLogo = catchAsync(async (req, res, next) => {
 });
 
 // Business Details
-
 exports.businessDetails = catchAsync(async (req, res, next) => {
   const { slug } = req.params;
   const business = await Business.findOne({ slug })
@@ -121,5 +120,15 @@ exports.businessDetails = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: "Success",
     business,
+  });
+});
+
+exports.getAllBusinessList = catchAsync(async (req, res, next) => {
+  const listsOfBusiness = await Business.find();
+
+  res.status(200).json({
+    status: "Success",
+    result: listsOfBusiness.length,
+    listsOfBusiness,
   });
 });

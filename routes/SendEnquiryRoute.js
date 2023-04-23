@@ -11,6 +11,13 @@ router.get(
   authController.restricTO("Super-admin"),
   EnquiryController.ListAllEnquiryRequest
 );
+
+router.get(
+  "/super-admin-get-request-details/:slug",
+  superAdminController.protectSuperAdmin,
+  authController.restricTO("Super-admin"),
+  EnquiryController.getrequestDetails
+);
 router.use(authController.protect, authController.restricTO("user"));
 router.post("/send-enquiry/:slug", EnquiryController.sendEnquiryApi);
 router.get(

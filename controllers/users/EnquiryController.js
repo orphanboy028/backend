@@ -6,11 +6,13 @@ const Enquiry = require("../../models/Enquiry/EnquiryModel");
 const SendEnquiry = require("../../models/Enquiry/SendEnquiry");
 
 exports.CreateEnquiry = catchAsync(async (req, res, next) => {
-  const { enquiry, Seletedlefcategory, description } = req.body;
+  const { enquiry, Seletedlefcategory, description, city, state } = req.body;
   const newEnquiry = await Enquiry.create({
     enquiry,
     Seletedlefcategory,
     description,
+    city,
+    state,
     user: req.user,
   });
 
@@ -78,7 +80,9 @@ exports.getrequestDetails = catchAsync(async (req, res, next) => {
 
 // get all enquiry List by super Admin
 exports.ListAllEnquiryRequest = catchAsync(async (req, res, next) => {
-  const enqueiryRequest = await SendEnquiry.find();
+  const enqueiryRequest = await SendEnquiry.find().populate({
+    path: "user",
+  });
 
   res.status(201).json({
     status: "Success",

@@ -12,6 +12,13 @@ router.post(
   EnquiryController.CreateEnquiry
 );
 
+router.get(
+  "/super-admin-get-all-enquiry",
+  superAdminController.protectSuperAdmin,
+  authController.restricTO("Super-admin"),
+  EnquiryController.getAllEnquiry
+);
+
 router.use(authController.protect, authController.restricTO("user"));
 router.get("/get-all-enquiry", EnquiryController.getAllEnquiry);
 

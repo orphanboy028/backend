@@ -15,6 +15,14 @@ const EnquirySchema = new mongoose.Schema(
       type: String,
     },
 
+    city: {
+      type: String,
+    },
+
+    state: {
+      type: String,
+    },
+
     slug: {
       type: String,
       require: [true, "slug didn't work"],
