@@ -69,6 +69,22 @@ exports.getAllProducts = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.getSearchProduct = catchAsync(async (req, res, next) => {
+  // Get the search query from the request
+  const query = req.query.q;
+  // Use a regular expression to match the query against product names and descriptions
+  const regex = new RegExp(query, "i");
+  const Searchproducts = await Products.find({
+    $or: [{ name: regex }, { description: regex }],
+  });
+
+  res.status(200).json({
+    status: "Success",
+    results: Searchproducts.length,
+    Searchproducts,
+  });
+});
+
 exports.getUserProducts = catchAsync(async (req, res, next) => {
   const { userId } = req.query;
   const Userproduct = await Products.find({ user: userId });

@@ -8,6 +8,8 @@ router.get("/", productController.getAllProducts);
 
 router.get("/single-product/:slug", productController.getSingleProduct);
 
+router.get("/search", productController.getSearchProduct);
+
 // Midelwear for all business Routes
 router.use(authController.protect, authController.restricTO("user"));
 
