@@ -31,12 +31,13 @@ exports.createBusiness = catchAsync(async (req, res, next) => {
       )
     );
   }
-  const { CompanyName, GstNumber, PanNumber, website } = req.body;
+  const { CompanyName, GstNumber, PanNumber, website, address } = req.body;
   const newBusiness = await Business.create({
     CompanyName,
     GstNumber,
     PanNumber,
     website,
+    address,
     BusiessOwner: req.user._id,
   });
 

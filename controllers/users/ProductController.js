@@ -28,11 +28,14 @@ exports.productFeatureImage = upload.single("images");
 
 // Create Product
 exports.createProduct = catchAsync(async (req, res, next) => {
+  console.log(req.body);
   const { name, price, description } = req.body;
+
   const photoname = req.file.filename;
+  const priceNum = Number(price);
   const newProduct = new Products({
     name,
-    price,
+    price: priceNum,
     description,
     user: req.user._id,
     images: {
@@ -134,11 +137,10 @@ exports.getUserSingleProduct = catchAsync(async (req, res, next) => {
 exports.getSingleProduct = catchAsync(async (req, res, next) => {
   const { slug } = req.params;
   console.log(slug);
-  const singleProduct = await Products.findOne({ slug });
+  const Product = await Products.findOne({ slug });
 
   res.status(200).json({
     status: "Success",
-    // results: singleProduct.length,
-    singleProduct,
+    Product,
   });
 });
