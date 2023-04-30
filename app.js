@@ -11,10 +11,19 @@ const formRoute = require("./routes/formRoute");
 const EnquiryRouter = require("./routes/EnquiryRouter");
 const UserRouter = require("./routes/UserRoutes");
 const SendEnquiryRoute = require("./routes/SendEnquiryRoute");
+const viewRoutes = require("./routes/viewRoutes");
+const path = require("path");
+const ejs = require("ejs");
 
 // BODY PARSER READING data FROM into req.body
 app.use(cors({ origin: `${process.env.CLINENT_URL}` }));
+
 app.use(express.json());
+
+app.set("view engine", ejs);
+app.set("views", path.join(__dirname, "views"));
+
+app.use(express.static(path.join(__dirname, "public")));
 
 // Routes
 app.get("/", (req, res, next) => {
@@ -23,6 +32,7 @@ app.get("/", (req, res, next) => {
   });
 });
 
+app.use("/overview", viewRoutes);
 app.use("/api/V1/industry/auth", authRoute);
 app.use("/api/V1/industy/super-admin", superAdminAuthRoute);
 app.use("/api/V1/industy/business", BusinessRoute);

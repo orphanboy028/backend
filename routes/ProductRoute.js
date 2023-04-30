@@ -26,8 +26,38 @@ router.get("/get-user-single-product", productController.getUserSingleProduct);
 
 // UPDATE PRODUCT SPECIFICATON
 router.patch(
-  "/update-product-spacification",
+  "/update-product-spacification/:slug",
   productController.updateProductSpacfification
+);
+
+// Update Only Product Image
+router.patch(
+  "/feature-image/update-product-image/:slug",
+  productController.productFeatureImage,
+  productController.updateOnlyProductImage
+);
+
+router.patch(
+  "/update-prodcut-baise-details/:slug",
+  productController.updateBiasieDetails
+);
+
+router.patch("/deactive-product", productController.deActivateProduct);
+router.patch("/active-product", productController.ActivateProduct);
+router.delete("/delete-product", productController.DeleteProduct);
+
+router.patch(
+  "/Send-Single-product-Enqiires/:slug",
+  productController.SendSingleproductEnqiires
+);
+
+// GET PRODUCT Enquirey
+router.get("/user-product-Enquires", productController.productEnquires);
+
+// GET Single Product PRODUCT Enquirey
+router.get(
+  "/user-single-product-Enquires/:slug",
+  productController.SingleproductEnquires
 );
 
 module.exports = router;
