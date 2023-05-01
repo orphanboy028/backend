@@ -30,6 +30,61 @@ const productSchema = new mongoose.Schema(
       },
     ],
 
+    productMetas: {
+      MetaDescription: {
+        content: {
+          type: String,
+        },
+        name: {
+          type: String,
+
+          default: "description",
+        },
+      },
+
+      Metakeywords: {
+        content: {
+          type: String,
+        },
+        name: {
+          type: String,
+          default: "keywords",
+        },
+      },
+    },
+    ProductMetaog: {
+      MetaOgTitle: {
+        content: {
+          type: String,
+        },
+
+        property: {
+          type: String,
+          default: "og:title",
+        },
+      },
+      MetaOgDescription: {
+        content: {
+          type: String,
+        },
+
+        property: {
+          type: String,
+          default: "og:description",
+        },
+      },
+      MetaOgImage: {
+        content: {
+          type: String,
+        },
+
+        property: {
+          type: String,
+          default: "og:image",
+        },
+      },
+    },
+
     description: {
       type: String,
       trim: true,

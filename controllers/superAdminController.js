@@ -95,6 +95,7 @@ const signToken = (id) => {
 };
 
 exports.protectSuperAdmin = catchAsync(async (req, res, next) => {
+  console.log("call super admin");
   // 1) Getting token and
   let token;
   if (
@@ -117,7 +118,9 @@ exports.protectSuperAdmin = catchAsync(async (req, res, next) => {
   const freshUser = await SuperAdmin.findById(decoded.id);
 
   if (!freshUser) {
-    return next(new AppError("The token does not blonging to this user", 401));
+    return next(
+      new AppError("The Super Admin token does not blonging to this user", 401)
+    );
   }
   // 4) check if user changed password
   // pendng....

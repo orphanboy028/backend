@@ -11,6 +11,7 @@ const formRoute = require("./routes/formRoute");
 const EnquiryRouter = require("./routes/EnquiryRouter");
 const UserRouter = require("./routes/UserRoutes");
 const SendEnquiryRoute = require("./routes/SendEnquiryRoute");
+const SuperAdminProductSEORoute = require("./routes/Super-admin/SuperAdminProductSEORoute");
 const viewRoutes = require("./routes/viewRoutes");
 const path = require("path");
 const ejs = require("ejs");
@@ -42,6 +43,7 @@ app.use("/api/V1/industy/form", formRoute);
 app.use("/api/V1/industy/enquiry", EnquiryRouter);
 app.use("/api/V1/industy/users", UserRouter);
 app.use("/api/V1/industy/sendenquiry", SendEnquiryRoute);
+app.use("/api/V1/industy/super-seo", SuperAdminProductSEORoute);
 
 // global Error Control
 app.use(globalErrorHandler);

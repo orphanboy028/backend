@@ -39,6 +39,12 @@ exports.createProduct = catchAsync(async (req, res, next) => {
 
   const photoname = req.file.filename;
   const priceNum = Number(price);
+  // Limit the description content to 160 words
+  const limitedDescription = description.substring(0, 160);
+  const keywords = name
+    .split(" ")
+    .filter((word) => word.length >= 3)
+    .join(", ");
   const newProduct = new Products({
     name,
     unit,
@@ -48,6 +54,25 @@ exports.createProduct = catchAsync(async (req, res, next) => {
     images: {
       url: photoname,
       altText: name,
+    },
+    productMetas: {
+      MetaDescription: {
+        content: limitedDescription,
+      },
+      Metakeywords: {
+        content: keywords,
+      },
+    },
+    ProductMetaog: {
+      MetaOgTitle: {
+        content: name,
+      },
+      MetaOgDescription: {
+        content: limitedDescription,
+      },
+      MetaOgImage: {
+        content: photoname,
+      },
     },
   });
 
@@ -311,6 +336,34 @@ exports.productEnquires = catchAsync(async (req, res, next) => {
 
 // single Product Enquires
 exports.SingleproductEnquires = catchAsync(async (req, res, next) => {
+  const { slug } = req.params;
+  console.log(slug);
+  const product = await Products.findOne({ slug: slug }).populate({
+    path: "productEnquiries",
+  });
+
+  res.status(200).json({
+    status: "Success",
+    // results: product.length,
+    product,
+  });
+});
+
+// Product Enquires super Admin
+exports.SuperAdminproductEnquires = catchAsync(async (req, res, next) => {
+  const product = await Products.find({
+    productEnquiries: { $exists: true, $not: { $size: 0 } },
+  });
+
+  res.status(200).json({
+    status: "Success",
+    results: product.length,
+    product,
+  });
+});
+
+//Super Admim single Product Enquires
+exports.SuperAdminSingleproductEnquires = catchAsync(async (req, res, next) => {
   const { slug } = req.params;
   console.log(slug);
   const product = await Products.findOne({ slug: slug }).populate({

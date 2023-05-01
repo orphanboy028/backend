@@ -163,6 +163,7 @@ exports.login = catchAsync(async (req, res, next) => {
 });
 
 exports.protect = catchAsync(async (req, res, next) => {
+  console.log("call user");
   // 1) Getting token and
   let token;
   if (
@@ -185,7 +186,9 @@ exports.protect = catchAsync(async (req, res, next) => {
   const freshUser = await User.findById(decoded.id);
 
   if (!freshUser) {
-    return next(new AppError("The token does not blonging to this user", 401));
+    return next(
+      new AppError("The User token does not blonging to this user", 401)
+    );
   }
   // 4) check if user changed password
   // pendng....

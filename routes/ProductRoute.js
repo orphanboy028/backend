@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const authController = require("../controllers/authController");
 const productController = require("../controllers/users/ProductController");
+const superAdminController = require("../controllers/superAdminController");
 
 // GET ALL PRODUCTS
 router.get("/", productController.getAllProducts);
@@ -9,6 +10,14 @@ router.get("/", productController.getAllProducts);
 router.get("/single-product/:slug", productController.getSingleProduct);
 
 router.get("/search", productController.getSearchProduct);
+
+// Super ADMIN GET PRODUCT ENQUIRE
+router.get(
+  "/super-admin-product-Enquires",
+  superAdminController.protectSuperAdmin,
+  authController.restricTO("Super-admin"),
+  productController.SuperAdminproductEnquires
+);
 
 // Midelwear for all business Routes
 router.use(authController.protect, authController.restricTO("user"));
