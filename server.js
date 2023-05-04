@@ -19,6 +19,7 @@ mongoose
     console.log(process.env.NODE_ENV);
   })
   .catch((err) => {
+    console.log("error");
     console.log(err);
   });
 

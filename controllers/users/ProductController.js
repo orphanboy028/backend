@@ -136,10 +136,11 @@ exports.getUserProducts = catchAsync(async (req, res, next) => {
 exports.updateProductSpacfification = catchAsync(async (req, res, next) => {
   const { slug } = req.params;
   console.log(slug);
+  console.log(req.body);
   const product = await Products.findOneAndUpdate(
     { slug: slug },
     {
-      properties: req.body,
+      properties: req.body.properties,
     },
     {
       new: true,

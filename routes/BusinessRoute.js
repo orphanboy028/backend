@@ -3,6 +3,8 @@ const router = express.Router();
 const authController = require("../controllers/authController");
 const BusinessController = require("../controllers/users/BusinessController");
 
+// Get Business List
+router.get("/business-lists", BusinessController.getAllBusinessList);
 // Get Business Details
 router.get("/business-details/:slug", BusinessController.businessDetails);
 
@@ -11,8 +13,6 @@ router.use(authController.protect, authController.restricTO("user"));
 
 // Create Business API
 router.post("/create-business", BusinessController.createBusiness);
-
-router.get("/business-lists", BusinessController.getAllBusinessList);
 
 // GET BUSINESS DETAILS API
 router.get("/get-business-details", BusinessController.getUserBusinessDetails);

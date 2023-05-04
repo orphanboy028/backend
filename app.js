@@ -12,6 +12,7 @@ const EnquiryRouter = require("./routes/EnquiryRouter");
 const UserRouter = require("./routes/UserRoutes");
 const SendEnquiryRoute = require("./routes/SendEnquiryRoute");
 const SuperAdminProductSEORoute = require("./routes/Super-admin/SuperAdminProductSEORoute");
+const UsertrackUserActivity = require("./utils/TrackingMidelwear");
 const viewRoutes = require("./routes/viewRoutes");
 const path = require("path");
 const ejs = require("ejs");
@@ -28,10 +29,19 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // Routes
 app.get("/", (req, res, next) => {
+  req.session.test = "testsession";
   res.status(200).json({
     status: "Success",
+    sessionvalue: req.session.test,
   });
 });
+
+// app.use((req, res, next) => {
+//   console.log("Session:", req.session);
+//   console.log("User ID:", req.session.userId);
+
+//   next();
+// });
 
 app.use("/overview", viewRoutes);
 app.use("/api/V1/industry/auth", authRoute);

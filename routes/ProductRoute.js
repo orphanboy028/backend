@@ -3,6 +3,7 @@ const router = express.Router();
 const authController = require("../controllers/authController");
 const productController = require("../controllers/users/ProductController");
 const superAdminController = require("../controllers/superAdminController");
+const UsertrackUserActivity = require("../utils/TrackingMidelwear");
 
 // GET ALL PRODUCTS
 router.get("/", productController.getAllProducts);
@@ -22,11 +23,16 @@ router.get(
 // Midelwear for all business Routes
 router.use(authController.protect, authController.restricTO("user"));
 
-router.get("/user-products", productController.getUserProducts);
+router.get(
+  "/user-products",
+
+  productController.getUserProducts
+);
 
 // Create Business API
 router.post(
   "/create-Product",
+
   productController.productFeatureImage,
   productController.createProduct
 );
