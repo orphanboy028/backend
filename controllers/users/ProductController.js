@@ -51,6 +51,9 @@ exports.createProduct = catchAsync(async (req, res, next) => {
     price: priceNum,
     description,
     user: req.user._id,
+    city: req.user.businessDetails.city,
+    state: req.user.businessDetails.state,
+    district: req.user.businessDetails.district,
     images: {
       url: photoname,
       altText: name,

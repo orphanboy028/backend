@@ -105,6 +105,15 @@ const productSchema = new mongoose.Schema(
     lefCategory: {
       type: String,
     },
+    state: {
+      type: String,
+    },
+    district: {
+      type: String,
+    },
+    city: {
+      type: String,
+    },
     properties: {
       type: mongoose.Schema.Types.Mixed,
     },

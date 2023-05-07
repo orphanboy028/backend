@@ -12,13 +12,18 @@ const EnquiryRouter = require("./routes/EnquiryRouter");
 const UserRouter = require("./routes/UserRoutes");
 const SendEnquiryRoute = require("./routes/SendEnquiryRoute");
 const SuperAdminProductSEORoute = require("./routes/Super-admin/SuperAdminProductSEORoute");
+const BannerRoute = require("./routes/Super-admin/Banners/BannersRoute");
 const UsertrackUserActivity = require("./utils/TrackingMidelwear");
 const viewRoutes = require("./routes/viewRoutes");
 const path = require("path");
 const ejs = require("ejs");
 
 // BODY PARSER READING data FROM into req.body
+// app.use(cors({ origin: `${process.env.CLINENT_URL}` }));
+
 app.use(cors({ origin: `${process.env.CLINENT_URL}` }));
+
+app.options("*", cors());
 
 app.use(express.json());
 
@@ -54,6 +59,7 @@ app.use("/api/V1/industy/enquiry", EnquiryRouter);
 app.use("/api/V1/industy/users", UserRouter);
 app.use("/api/V1/industy/sendenquiry", SendEnquiryRoute);
 app.use("/api/V1/industy/super-seo", SuperAdminProductSEORoute);
+app.use("/api/V1/industy/super-admin/banners", BannerRoute);
 
 // global Error Control
 app.use(globalErrorHandler);

@@ -6,19 +6,21 @@ const Enquiry = require("../../models/Enquiry/EnquiryModel");
 const SendEnquiry = require("../../models/Enquiry/SendEnquiry");
 
 exports.CreateEnquiry = catchAsync(async (req, res, next) => {
-  const { enquiry, Seletedlefcategory, description, city, state } = req.body;
+  const { enquiry, Seletedlefcategory, description, state } = req.body;
   const newEnquiry = await Enquiry.create({
     enquiry,
     Seletedlefcategory,
     description,
-    city,
-    state,
+    city: req.user.businessDetails.city,
+    state: req.user.businessDetails.state,
+    district: req.user.businessDetails.district,
     user: req.user,
   });
 
   res.status(200).json({
     status: "Success",
     newEnquiry,
+    checkCity,
   });
 });
 

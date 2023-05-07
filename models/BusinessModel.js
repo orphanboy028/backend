@@ -31,6 +31,17 @@ const BusinessSchema = new mongoose.Schema(
       ref: "User",
       required: [true, "Please provide the Business Owner id!"],
     },
+
+    state: {
+      type: String,
+    },
+    district: {
+      type: String,
+    },
+    city: {
+      type: String,
+    },
+
     address: {
       type: String,
     },

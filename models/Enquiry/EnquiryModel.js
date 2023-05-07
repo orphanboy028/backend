@@ -15,11 +15,13 @@ const EnquirySchema = new mongoose.Schema(
       type: String,
     },
 
-    city: {
+    state: {
       type: String,
     },
-
-    state: {
+    district: {
+      type: String,
+    },
+    city: {
       type: String,
     },
 
