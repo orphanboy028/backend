@@ -7,6 +7,8 @@ const Products = require("../../models/ProductsModel");
 const Business = require("../../models/BusinessModel");
 const multer = require("multer");
 const ejs = require("ejs");
+const { json } = require("express");
+const qs = require("qs");
 // const fs = require("fs");
 // const base64Img = require("base64-img");
 
@@ -104,22 +106,6 @@ exports.getAllProducts = catchAsync(async (req, res, next) => {
     status: "Success",
     results: allProducts.length,
     allProducts,
-  });
-});
-
-exports.getSearchProduct = catchAsync(async (req, res, next) => {
-  // Get the search query from the request
-  const query = req.query.q;
-  // Use a regular expression to match the query against product names and descriptions
-  const regex = new RegExp(query, "i");
-  const Searchproducts = await Products.find({
-    $or: [{ name: regex }, { description: regex }],
-  });
-
-  res.status(200).json({
-    status: "Success",
-    results: Searchproducts.length,
-    Searchproducts,
   });
 });
 
@@ -380,3 +366,79 @@ exports.SuperAdminSingleproductEnquires = catchAsync(async (req, res, next) => {
     product,
   });
 });
+
+// Fillter product api
+exports.getSearchProduct = catchAsync(async (req, res, next) => {
+  // Get the search query from the request
+  const queryObj = qs.parse(req.query); // parse the query string into an object
+
+  console.log(queryObj);
+
+  if (queryObj.name) {
+    queryObj.name = { $regex: queryObj.name, $options: "i" };
+  }
+
+  let queryStr = JSON.stringify(queryObj);
+  queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
+
+  // Convert price strings to numbers
+  const query = JSON.parse(queryStr);
+  if (query.price) {
+    const minPrice = parseInt(query.price.$gte);
+    const maxPrice = parseInt(query.price.$lte);
+    query.price = { $gte: minPrice, $lte: maxPrice };
+  }
+
+  // Perform a partial text search on product name
+
+  console.log(query);
+
+  const Searchproducts = await Products.find(query);
+
+  res.status(200).json({
+    status: "Success",
+    results: Searchproducts.length,
+    queryObj,
+    query,
+    Searchproducts,
+  });
+});
+
+// exports.getSearchProduct = catchAsync(async (req, res, next) => {
+//   let queryObj;
+
+//   // Check if the request is from a browser or Postman
+//   if (req.headers["user-agent"].includes("Mozilla")) {
+//     // Request is from a browser
+//     queryObj = {
+//       city: req.query.city,
+//       district: req.query.district,
+//       state: req.query.state,
+//       price: {
+//         $gte: req.query.price.gte,
+//         $lte: req.query.price.lte,
+//       },
+//       name: { $regex: req.query.name, $options: "i" },
+//     };
+//     console.log("from Browser");
+//     console.log(queryObj);
+//   } else {
+//     // Request is from Postman
+//     queryObj = { ...req.query };
+//     queryObj.price = {
+//       $gte: parseInt(queryObj.price.gte),
+//       $lte: parseInt(queryObj.price.lte),
+//     };
+//     queryObj.name = { $regex: queryObj.name, $options: "i" };
+//     console.log("from Browser");
+//     console.log(queryObj);
+//   }
+
+//   const searchProducts = await Products.find(queryObj);
+
+//   res.status(200).json({
+//     status: "Success",
+//     results: Searchproducts.length,
+//     searchProducts,
+//   });
+// });
