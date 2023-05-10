@@ -129,6 +129,7 @@ exports.updateProductSpacfification = catchAsync(async (req, res, next) => {
   const product = await Products.findOneAndUpdate(
     { slug: slug },
     {
+      lefCategory: req.body.lefCategory,
       properties: req.body.properties,
     },
     {
