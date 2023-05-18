@@ -20,6 +20,7 @@ router.get(
 );
 router.use(authController.protect, authController.restricTO("user"));
 router.post("/send-enquiry/:slug", EnquiryController.sendEnquiryApi);
+
 router.get(
   "/get-request-details/:slug",
   authController.protect,

@@ -21,5 +21,9 @@ router.get(
 
 router.use(authController.protect, authController.restricTO("user"));
 router.get("/get-all-enquiry", EnquiryController.getAllEnquiry);
+router.get(
+  "/user-created-enquires-list",
+  EnquiryController.ListOfCreatedEnquires
+);
 
 module.exports = router;

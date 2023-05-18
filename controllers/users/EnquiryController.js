@@ -5,6 +5,7 @@ const sendEmail = require("../../utils/email");
 const Enquiry = require("../../models/Enquiry/EnquiryModel");
 const SendEnquiry = require("../../models/Enquiry/SendEnquiry");
 
+// Create Enquire From Form
 exports.CreateEnquiry = catchAsync(async (req, res, next) => {
   const { enquiry, Seletedlefcategory, description, state } = req.body;
   const newEnquiry = await Enquiry.create({
@@ -24,6 +25,7 @@ exports.CreateEnquiry = catchAsync(async (req, res, next) => {
   });
 });
 
+// Get All Enquires All User can see all The enquires
 exports.getAllEnquiry = catchAsync(async (req, res, next) => {
   const allEnquiry = await Enquiry.find().populate({
     path: "getEnquiy",
@@ -35,6 +37,7 @@ exports.getAllEnquiry = catchAsync(async (req, res, next) => {
   });
 });
 
+// Respond On Enqurey By Other Users
 exports.sendEnquiryApi = catchAsync(async (req, res, next) => {
   const { slug } = req.params;
   const { EnquiryMessage } = req.body;
@@ -89,5 +92,16 @@ exports.ListAllEnquiryRequest = catchAsync(async (req, res, next) => {
   res.status(201).json({
     status: "Success",
     enqueiryRequest,
+  });
+});
+
+// List of All Enquires Created By User
+exports.ListOfCreatedEnquires = catchAsync(async (req, res, next) => {
+  const CreatedEnquires = await Enquiry.find({ user: req.user._id });
+
+  res.status(200).json({
+    status: "Success",
+    results: CreatedEnquires.length,
+    CreatedEnquires,
   });
 });

@@ -21,7 +21,18 @@ const ejs = require("ejs");
 // BODY PARSER READING data FROM into req.body
 // app.use(cors({ origin: `${process.env.CLINENT_URL}` }));
 
-app.use(cors({ origin: `${process.env.CLINENT_URL}` }));
+// app.use(cors({ origin: `${process.env.CLINENT_URL}` }));
+
+// app.options("*", cors());
+
+// Enable CORS
+
+app.use(
+  cors({
+    origin: "http://192.168.42.212:3000", // Replace with your domain
+    credentials: true,
+  })
+);
 
 app.options("*", cors());
 
@@ -33,20 +44,19 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
 
 // Routes
-app.get("/", (req, res, next) => {
-  req.session.test = "testsession";
-  res.status(200).json({
-    status: "Success",
-    sessionvalue: req.session.test,
-  });
-});
-
-// app.use((req, res, next) => {
-//   console.log("Session:", req.session);
-//   console.log("User ID:", req.session.userId);
-
-//   next();
+// app.get("/", (req, res, next) => {
+//   req.session.test = "testsession";
+//   res.status(200).json({
+//     status: "Success",
+//     sessionvalue: req.session.test,
+//   });
 // });
+
+app.use((req, res, next) => {
+  console.log("Request URL:", req.url);
+
+  next();
+});
 
 app.use("/overview", viewRoutes);
 app.use("/api/V1/industry/auth", authRoute);
