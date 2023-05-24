@@ -29,7 +29,7 @@ const ejs = require("ejs");
 
 app.use(
   cors({
-    origin: "http://192.168.42.212:3000", // Replace with your domain
+    origin: "http://192.168.1.16:3000", // Replace with your domain
     credentials: true,
   })
 );

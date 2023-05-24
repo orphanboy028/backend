@@ -7,6 +7,15 @@ const categoriesController = require("../controllers/SuperAdmin/CategoriesContro
 // GET ALL CATEGORIES
 router.get("/get-all-categories", categoriesController.getAllCategories);
 router.get("/get-all-sub-categories", categoriesController.getAllSubCategories);
+router.get(
+  "/get-main-subcategories-list/:catSlug",
+  categoriesController.getSubCategoriesByMainCategories
+);
+
+router.get(
+  "/get-sub-lef-categories/:subcategoryslug",
+  categoriesController.getAllLeafCatgories
+);
 
 // Midelwear for only user for Super Admin
 router.use(

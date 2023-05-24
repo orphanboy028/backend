@@ -113,6 +113,22 @@ exports.getAllSubCategories = catchAsync(async (req, res, next) => {
   });
 });
 
+// Get main SubCategories List
+exports.getSubCategoriesByMainCategories = catchAsync(
+  async (req, res, next) => {
+    const { catSlug } = req.params;
+    const subCatList = await SubCategory.find({
+      categorySlug: catSlug,
+    }).populate("lefCategory");
+
+    res.status(200).json({
+      status: "Success",
+      results: subCatList.length,
+      subCatList,
+    });
+  }
+);
+
 // DELETE SUB_CATEGORIE
 exports.deleteSubCategory = catchAsync(async (req, res, next) => {
   const { subid } = req.params || req.body;

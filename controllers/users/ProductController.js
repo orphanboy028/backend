@@ -108,7 +108,7 @@ exports.getAllProducts = catchAsync(async (req, res, next) => {
     allProducts,
   });
 });
-
+// User Products API
 exports.getUserProducts = catchAsync(async (req, res, next) => {
   console.log(req.user._id);
   const { id } = req.user._id;
@@ -260,6 +260,7 @@ exports.ActivateProduct = catchAsync(async (req, res, next) => {
   });
 });
 
+// Delete Product API
 exports.DeleteProduct = catchAsync(async (req, res, next) => {
   console.log("run");
   console.log(req.body.id);
@@ -404,42 +405,3 @@ exports.getSearchProduct = catchAsync(async (req, res, next) => {
     Searchproducts,
   });
 });
-
-// exports.getSearchProduct = catchAsync(async (req, res, next) => {
-//   let queryObj;
-
-//   // Check if the request is from a browser or Postman
-//   if (req.headers["user-agent"].includes("Mozilla")) {
-//     // Request is from a browser
-//     queryObj = {
-//       city: req.query.city,
-//       district: req.query.district,
-//       state: req.query.state,
-//       price: {
-//         $gte: req.query.price.gte,
-//         $lte: req.query.price.lte,
-//       },
-//       name: { $regex: req.query.name, $options: "i" },
-//     };
-//     console.log("from Browser");
-//     console.log(queryObj);
-//   } else {
-//     // Request is from Postman
-//     queryObj = { ...req.query };
-//     queryObj.price = {
-//       $gte: parseInt(queryObj.price.gte),
-//       $lte: parseInt(queryObj.price.lte),
-//     };
-//     queryObj.name = { $regex: queryObj.name, $options: "i" };
-//     console.log("from Browser");
-//     console.log(queryObj);
-//   }
-
-//   const searchProducts = await Products.find(queryObj);
-
-//   res.status(200).json({
-//     status: "Success",
-//     results: Searchproducts.length,
-//     searchProducts,
-//   });
-// });
